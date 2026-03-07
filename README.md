@@ -2,13 +2,6 @@
 
 A command-line songwriting guide tool that helps artists understand song structures, rhyme schemes, and writing techniques across different music genres.
 
-## Team Members
-
-- Member 1 — _[Name]_
-- Member 2 — _[Name]_
-- Member 3 — _[Name]_
-- Member 4 — _[Name]_
-- Member 5 — _[Name]_
 
 ## About
 
