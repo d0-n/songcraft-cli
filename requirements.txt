@@ -1,0 +1,2 @@
+# no external dependencies required
+# sqlite3 is part of the python standard library
