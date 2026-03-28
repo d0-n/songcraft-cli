@@ -6,6 +6,7 @@ from app.display import (
 
 
 def run_guide(conn):
+    """Main songwriting guide flow: pick topic, genre, view structure, save."""
     cursor = conn.cursor()
 
     # step 1: pick a topic
@@ -14,7 +15,7 @@ def run_guide(conn):
     topics = cursor.fetchall()
 
     for topic in topics:
-        print(f"  {topic['id']}. {topic['name']}")
+        print(f"  {topic[0]}. {topic[1]}")
     print(f"  {len(topics) + 1}. Custom topic (type your own)")
     print()
 
@@ -46,7 +47,7 @@ def run_guide(conn):
     genres = cursor.fetchall()
 
     for genre in genres:
-        print(f"  {genre['id']}. {genre['name']}")
+        print(f"  {genre[0]}. {genre[1]}")
     print()
 
     selected_genre = None
@@ -63,12 +64,12 @@ def run_guide(conn):
             print("  Please enter a number.")
 
     show_genre_info(selected_genre)
-    genre_id = selected_genre["id"]
+    genre_id = selected_genre[0]  # id
 
     # step 3: show song structure
     cursor.execute(
         "SELECT section_name, section_order, bar_count, description "
-        "FROM structures WHERE genre_id = ? ORDER BY section_order",
+        "FROM structures WHERE genre_id = %s ORDER BY section_order",
         (genre_id,)
     )
     sections = cursor.fetchall()
@@ -77,7 +78,7 @@ def run_guide(conn):
 
     # step 4: show rhyme schemes
     cursor.execute(
-        "SELECT pattern, name, example FROM rhyme_schemes WHERE genre_id = ?",
+        "SELECT pattern, name, example FROM rhyme_schemes WHERE genre_id = %s",
         (genre_id,)
     )
     schemes = cursor.fetchall()
@@ -86,7 +87,7 @@ def run_guide(conn):
 
     # step 5: show tips
     cursor.execute(
-        "SELECT tip_text FROM tips WHERE genre_id = ?",
+        "SELECT tip_text FROM tips WHERE genre_id = %s",
         (genre_id,)
     )
     tips = cursor.fetchall()
@@ -104,32 +105,38 @@ def run_guide(conn):
 
 
 def save_summary(topic, genre, sections, schemes, tips):
-    filename = f"songcraft_{genre['name'].lower().replace(' ', '_')}_guide.txt"
+    """Save the songwriting guide results to a text file."""
+    if isinstance(topic, dict):
+        topic_name = topic["name"]
+    else:
+        topic_name = topic[1]
+
+    genre_name = genre[1]
+    filename = f"songcraft_{genre_name.lower().replace(' ', '_')}_guide.txt"
 
     with open(filename, "w") as f:
         f.write("SongCraft - Songwriting Guide Summary\n")
         f.write("=" * 40 + "\n\n")
 
-        f.write(f"Topic: {topic['name']}\n")
-        f.write(f"Genre: {genre['name']}\n\n")
+        f.write(f"Topic: {topic_name}\n")
+        f.write(f"Genre: {genre_name}\n\n")
 
         f.write("SONG STRUCTURE\n")
         f.write("-" * 30 + "\n")
         for section in sections:
-            f.write(f"  {section['section_order']}. {section['section_name']} "
-                    f"({section['bar_count']} bars)\n")
-            f.write(f"     {section['description']}\n")
+            f.write(f"  {section[1]}. {section[0]} ({section[2]} bars)\n")
+            f.write(f"     {section[3]}\n")
         f.write("\n")
 
         f.write("RHYME SCHEMES\n")
         f.write("-" * 30 + "\n")
         for scheme in schemes:
-            f.write(f"  {scheme['name']} ({scheme['pattern']})\n")
-            f.write(f"  Example: {scheme['example']}\n\n")
+            f.write(f"  {scheme[1]} ({scheme[0]})\n")
+            f.write(f"  Example: {scheme[2]}\n\n")
 
         f.write("TIPS\n")
         f.write("-" * 30 + "\n")
         for i, tip in enumerate(tips):
-            f.write(f"  {i + 1}. {tip['tip_text']}\n")
+            f.write(f"  {i + 1}. {tip[0]}\n")
 
     print(f"\n  Summary saved to: {filename}")
