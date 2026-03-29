@@ -1,63 +1,113 @@
 # SongCraft CLI (PLP-2)
 
-A professional-grade command-line songwriting laboratory that leverages **Data Science** and **Cloud Infrastructure** to help artists master their craft.
+A command-line songwriting tool that uses **Cloud Database** storage and **Data Science** to help artists improve their craft.
 
 ## Team Role Assignments (GitHub Contributions)
 
-- **Member 1 (Don):** Principal Algorithm Architect (Pattern Matcher)
-- **Member 2 (Malaika):** Database Security & User Profile Systems
-- **Member 3 (Gihoza):** CRUD & Application Navigation Logic
-- **Member 4 (Ishimwe):** Songwriting Assistant & Content Logic
-- **Member 5 (Berthe):** Core Application Shell & Database Schema
+- **Member 1 (Don):** Pattern Matcher Algorithm & Data Seeding
+- **Member 2 (Malaika):** User Profiles, Display Logic & Database Connection
+- **Member 3 (Gihoza):** CRUD Operations, Menu Navigation & Setup Script
+- **Member 4 (Ishimwe):** Songwriting Guide & Dependencies
+- **Member 5 (Berthe):** Main Application Entry & Database Schema
 
-## Major PLP-2 Upgrades
+## Prerequisites
 
-### Style DNA Pattern Matcher
-Our standout feature. The app extracts a writing "fingerprint" from raw text-analyzing **Rhyme Density**, **Syllable Tempo**, and **Vocabulary Richness**. It matches the user's style against a database of 20+ legendary artists using the **Cosine Similarity** algorithm (Vector Mathematics).
+Before running SongCraft, make sure you have:
 
-### Cloud Persistence (Aiven MySQL)
-Migrated from localized SQLite to a professional **Aiven MySQL** cloud database. This enables team-wide data synchronization and secure SSL-encrypted connections.
+1. **Python 3.6 or higher** installed on your computer.
+   - Check by running: `python --version` or `python3 --version`
+   - Download from: https://www.python.org/downloads/
 
-### Profiles & Gamification
-A custom RPG-style leveling system. Every song draft or style analysis awards **XP**. 
-- **Level Formula:** `Floor(1 + √XP/50)`
-- Tracks user streaks and progression levels in the cloud.
+2. **mysql-connector-python** library.
+   - Install by running:
+   ```bash
+   pip install mysql-connector-python
+   ```
+   Or on Mac/Linux:
+   ```bash
+   pip3 install mysql-connector-python
+   ```
 
-### Full Library Management (CRUD)
-Complete administrative control over the database. Users can Create, Read, Update, and Delete Genres, Topics, Tips, and personal Song Drafts.
+3. **Internet connection** (the database is hosted in the cloud).
 
-## Tech Stack
+## Database Configuration
 
-- **Core:** Python 3.x
-- **Database:** MySQL 8.0 (Aiven Cloud)
-- **Encryption:** SSL-enabled database connections
-- **Algorithm:** Vector-based Cosine Similarity
-- **Dependencies:** `mysql-connector-python`
+SongCraft uses a cloud-hosted **Aiven MySQL** database. For security, the database password is **not** stored directly in the source code.
+
+### Setting Up the Password
+Create a file called `db/config.py` in the project and add this one line:
+```python
+DB_PASSWORD = "your_password_here"
+```
+This file is listed in `.gitignore` so it will not be pushed to GitHub.
+
+### Setting Up Your Own Database (Optional)
+If you want to connect to your own MySQL instance instead of the shared one:
+1. Go to https://aiven.io and create a free account.
+2. Create a new **MySQL** service (the free tier works fine).
+3. Copy your **Host**, **Port**, **Username**, and **Password** from the Aiven dashboard.
+4. Open `db/connection.py` and update the `DB_HOST`, `DB_PORT`, `DB_USER` values to match your service.
+5. Add your password to `db/config.py` as shown above.
+6. Run the app — it will automatically create all tables and populate the database on first launch.
 
 ## How to Run
 
+**Windows:**
 ```bash
-# Initialize & Run (Unix/Mac)
-chmod +x setup.sh run.sh
-./run.sh
-
-# Run (Windows)
 python main.py
 ```
+
+**Mac / Linux:**
+```bash
+python3 main.py
+```
+
+The app will automatically:
+- Connect to the cloud database
+- Create all necessary tables (if they do not exist)
+- Populate starter data on first launch (genres, artists, tips)
+- Prompt you to log in or create a profile
+
+## Major Features
+
+### Pattern Matcher
+The app extracts a writing "fingerprint" from your lyrics by analyzing **Rhyme Density**, **Syllable Tempo**, and **Vocabulary Richness**. It then matches your style against 20+ legendary artists using the **Cosine Similarity** algorithm.
+
+### Cloud Persistence (Aiven MySQL)
+All data is stored in a cloud MySQL database with **SSL encryption**. Your songs, profiles, and progress are synchronized remotely.
+
+### Profiles & Gamification
+A leveling system that rewards you with **XP** for writing songs and analyzing lyrics.
+- **Level Formula:** `Floor(1 + √(XP / 50))`
+
+### Library Management (CRUD)
+Full control over the database. Create, Read, Update, and Delete genres, topics, tips, and personal song drafts. Your drafts are private and tied to your user profile.
+
+## Tech Stack
+
+- **Language:** Python 3.x
+- **Database:** MySQL 8.0 (Aiven Cloud)
+- **Encryption:** SSL-enabled connections
+- **Algorithm:** Vector-based Cosine Similarity
+- **Dependency:** `mysql-connector-python`
 
 ## Project Structure
 
 ```
 songcraft-cli/
-├── main.py              # Application Entry & Unicode Encoding Fixes
+├── main.py              # App entry point and Unicode fix
+├── requirements.txt     # Python dependencies
 ├── db/
-│   ├── connection.py    # SSL Cloud Database Bridge
-│   ├── schema.py        # Normalized Relational Schema
-│   └── seed.py          # Data Population (Artist Vectors & Genres)
+│   ├── __init__.py      # Marks db/ as a Python package
+│   ├── config.py        # Local-only password file (not in GitHub)
+│   ├── connection.py    # Cloud database connection (SSL)
+│   ├── schema.py        # Table definitions
+│   └── seed.py          # Starter data (genres, artists, tips)
 └── app/
-    ├── pattern_matcher.py # Mathematical Content Analysis Engine
-    ├── user.py           # Login & XP/Leveling Gamification
-    ├── crud.py           # Library Management System
-    ├── guide.py          # Interactive Writing Assistant
-    └── display.py        # ASCII Terminal Rendering Engine
+    ├── __init__.py      # Marks app/ as a Python package
+    ├── pattern_matcher.py # Style analysis algorithm
+    ├── user.py           # Login and XP/leveling system
+    ├── crud.py           # Data management (Create, Read, Update, Delete)
+    ├── guide.py          # Step-by-step songwriting assistant
+    └── display.py        # Terminal UI formatting
 ```
