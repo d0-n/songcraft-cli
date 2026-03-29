@@ -1,70 +1,63 @@
-# SongCraft
+# SongCraft CLI (PLP-2)
 
-A command-line songwriting guide tool that helps artists understand song structures, rhyme schemes, and writing techniques across different music genres.
+A professional-grade command-line songwriting laboratory that leverages **Data Science** and **Cloud Infrastructure** to help artists master their craft.
 
+## Team Role Assignments (GitHub Contributions)
 
-## About
+- **Member 1 (Don):** Principal Algorithm Architect (Pattern Matcher)
+- **Member 2 (Malaika):** Database Security & User Profile Systems
+- **Member 3 (Gihoza):** CRUD & Application Navigation Logic
+- **Member 4 (Ishimwe):** Songwriting Assistant & Content Logic
+- **Member 5 (Berthe):** Core Application Shell & Database Schema
 
-SongCraft is a menu-driven Python application that walks you through the process of writing a song. You pick a topic (what you want to sing about), choose a genre, and the tool gives you:
+## Major PLP-2 Upgrades
 
-- The recommended **song structure** (intro, verse, chorus, bridge, etc.) with bar counts
-- Common **rhyme schemes** used in that genre with examples
-- Practical **songwriting tips** specific to that genre
+### Style DNA Pattern Matcher
+Our standout feature. The app extracts a writing "fingerprint" from raw text-analyzing **Rhyme Density**, **Syllable Tempo**, and **Vocabulary Richness**. It matches the user's style against a database of 20+ legendary artists using the **Cosine Similarity** algorithm (Vector Mathematics).
 
-The application stores all its data in a **SQLite database** and supports 6 genres: Pop, Rock, Hip-Hop, R&B, Country, and Afrobeat.
+### Cloud Persistence (Aiven MySQL)
+Migrated from localized SQLite to a professional **Aiven MySQL** cloud database. This enables team-wide data synchronization and secure SSL-encrypted connections.
+
+### Profiles & Gamification
+A custom RPG-style leveling system. Every song draft or style analysis awards **XP**. 
+- **Level Formula:** `Floor(1 + √XP/50)`
+- Tracks user streaks and progression levels in the cloud.
+
+### Full Library Management (CRUD)
+Complete administrative control over the database. Users can Create, Read, Update, and Delete Genres, Topics, Tips, and personal Song Drafts.
+
+## Tech Stack
+
+- **Core:** Python 3.x
+- **Database:** MySQL 8.0 (Aiven Cloud)
+- **Encryption:** SSL-enabled database connections
+- **Algorithm:** Vector-based Cosine Similarity
+- **Dependencies:** `mysql-connector-python`
 
 ## How to Run
 
-### Requirements
-
-- Python 3.6 or higher
-
-### Quick Start
-
 ```bash
-# on Linux / macOS
-chmod +x run.sh
+# Initialize & Run (Unix/Mac)
+chmod +x setup.sh run.sh
 ./run.sh
 
-# on Windows
+# Run (Windows)
 python main.py
-```
-
-### Setup (optional)
-
-If you want to reset the database:
-
-```bash
-chmod +x setup.sh
-./setup.sh
 ```
 
 ## Project Structure
 
 ```
 songcraft-cli/
-├── main.py              # Entry point
-├── setup.sh             # Database setup script
-├── run.sh               # Run script
-├── requirements.txt     # Dependencies
+├── main.py              # Application Entry & Unicode Encoding Fixes
 ├── db/
-│   ├── __init__.py
-│   ├── connection.py    # Database connection
-│   ├── schema.py        # Table definitions
-│   └── seed.py          # Data population
+│   ├── connection.py    # SSL Cloud Database Bridge
+│   ├── schema.py        # Normalized Relational Schema
+│   └── seed.py          # Data Population (Artist Vectors & Genres)
 └── app/
-    ├── __init__.py
-    ├── menu.py           # Menu navigation
-    ├── guide.py          # Songwriting guide flow
-    └── display.py        # Output formatting
+    ├── pattern_matcher.py # Mathematical Content Analysis Engine
+    ├── user.py           # Login & XP/Leveling Gamification
+    ├── crud.py           # Library Management System
+    ├── guide.py          # Interactive Writing Assistant
+    └── display.py        # ASCII Terminal Rendering Engine
 ```
-
-## Features
-
-- Browse available music genres and their descriptions
-- Browse common song topics (Love, Heartbreak, Celebration, etc.)
-- Get a full songwriting guide for any genre + topic combination
-- View detailed song structure with section names and bar counts
-- Learn rhyme scheme patterns with examples
-- Read genre-specific songwriting tips
-- Save your guide summary to a text file
