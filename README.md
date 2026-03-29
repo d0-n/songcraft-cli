@@ -62,6 +62,24 @@ python main.py
 python3 main.py
 ```
 
+### Shell Scripts (Mac / Linux only)
+
+We provide two helper scripts for convenience:
+
+- **`setup.sh`** — Resets and rebuilds the database from scratch. Use this if the database gets corrupted or you want a fresh start. It deletes the old data, recreates all tables, and repopulates everything.
+  ```bash
+  chmod +x setup.sh
+  ./setup.sh
+  ```
+
+- **`run.sh`** — A quick launcher that detects your Python version and starts the app. No need to remember whether your system uses `python` or `python3`.
+  ```bash
+  chmod +x run.sh
+  ./run.sh
+  ```
+
+> **Note:** `setup.sh` is only needed for a manual reset. On normal launches, `main.py` automatically creates tables and populates data if the database is empty.
+
 The app will automatically:
 - Connect to the cloud database
 - Create all necessary tables (if they do not exist)
