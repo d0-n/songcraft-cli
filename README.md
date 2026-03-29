@@ -48,7 +48,7 @@ If you want to connect to your own MySQL instance instead of the shared one:
 3. Copy your **Host**, **Port**, **Username**, and **Password** from the Aiven dashboard.
 4. Open `db/connection.py` and update the `DB_HOST`, `DB_PORT`, `DB_USER` values to match your service.
 5. Add your password to `db/config.py` as shown above.
-6. Run the app — it will automatically create all tables and populate the database on first launch.
+6. Run the app - it will automatically create all tables and populate the database on first launch.
 
 ## How to Run
 
@@ -66,13 +66,13 @@ python3 main.py
 
 We provide two helper scripts for convenience:
 
-- **`setup.sh`** — Resets and rebuilds the database from scratch. Use this if the database gets corrupted or you want a fresh start. It deletes the old data, recreates all tables, and repopulates everything.
+- **`setup.sh`** - Resets and rebuilds the database from scratch. Use this if the database gets corrupted or you want a fresh start. It deletes the old data, recreates all tables, and repopulates everything.
   ```bash
   chmod +x setup.sh
   ./setup.sh
   ```
 
-- **`run.sh`** — A quick launcher that detects your Python version and starts the app. No need to remember whether your system uses `python` or `python3`.
+- **`run.sh`** - A quick launcher that detects your Python version and starts the app. No need to remember whether your system uses `python` or `python3`.
   ```bash
   chmod +x run.sh
   ./run.sh
